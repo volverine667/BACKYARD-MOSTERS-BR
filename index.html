@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Backyard Monsters - Cadastro</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      padding: 40px 20px;
+      margin: 0;
+    }
+    .container {
+      max-width: 400px;
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #aaa;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    form label {
+      font-weight: bold;
+      color: #555;
+    }
+    input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: 10px 8px;
+      margin-top: 6px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #mensagem {
+      margin-top: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
+    #mensagem.sucesso {
+      color: green;
+    }
+    #mensagem.erro {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Cadastro de Jogador</h1>
+    <form method="POST" action="salvar_jogador.php" id="formCadastro">
+      <label for="nome">Nome:</label><br />
+      <input type="text" id="nome" name="nome" required /><br /><br />
+
+      <label for="email">Email:</label><br />
+      <input type="email" id="email" name="email" required /><br /><br />
+
+      <button type="submit">Salvar</button>
+    </form>
+    <div id="mensagem"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('formCadastro');
+    const mensagem = document.getElementById('mensagem');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const formData = new FormData(form);
+
+      fetch('salvar_jogador.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        if(data.status === 'sucesso') {
+          mensagem.className = 'sucesso';
+          mensagem.textContent = data.mensagem;
+          form.reset();
+        } else {
+          mensagem.className = 'erro';
+          mensagem.textContent = data.mensagem;
+        }
+      })
+      .catch(() => {
+        mensagem.className = 'erro';
+        mensagem.textContent = 'Erro na comunicação com o servidor.';
+      });
+    });
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Backyard Monsters</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0; padding: 0;
+    background: #121212;
+    color: #eee;
+  }
+  header {
+    background: #1e1e1e;
+    padding: 20px;
+    text-align: center;
+    font-size: 2.5em;
+    font-weight: bold;
+    letter-spacing: 2px;
+    border-bottom: 3px solid #4caf50;
+  }
+  nav {
+    background: #222;
+    padding: 10px 0;
+    text-align: center;
+  }
+  nav a {
+    color: #4caf50;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 15px;
+    font-size: 1.1em;
+    transition: color 0.3s ease;
+  }
+  nav a:hover {
+    color: #88ff88;
+  }
+  main {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px;
+  }
+  section {
+    margin-bottom: 40px;
+  }
+  section h2 {
+    border-bottom: 2px solid #4caf50;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  /* Lista de downloads */
+  ul.download-list {
+    list-style: none;
+    padding: 0;
+  }
+  ul.download-list li {
+    background: #222;
+    margin-bottom: 12px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+  }
+  ul.download-list li:hover {
+    background: #333;
+  }
+  ul.download-list li a {
+    color: #4caf50;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  ul.download-list li a:hover {
+    text-decoration: underline;
+  }
+  /* Galeria de imagens */
+  .gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  .gallery img {
+    max-width: 200px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px #4caf50;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+  .gallery img:hover {
+    transform: scale(1.05);
+  }
+  footer {
+    background: #1e1e1e;
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9em;
+    color: #666;
+    border-top: 3px solid #4caf50;
+  }
+</style>
+</head>
+<body>
+
+<header>Backyard Monsters</header>
+
+<nav>
+  <a href="#downloads">Downloads</a>
+  <a href="#galeria">Galeria</a>
+  <a href="#contato">Contato</a>
+</nav>
+
+<main>
+
+<section id="downloads">
+  <h2>Arquivos para Download</h2>
+  <ul class="download-list">
+    <!-- Aqui você adiciona os arquivos para download -->
+    <li><a href="downloads/arquivo1.zip" download>Arquivo 1 - Mod Backyard Monsters</a></li>
+    <li><a href="downloads/arquivo2.zip" download>Arquivo 2 - Atualização</a></li>
+    <li><a href="downloads/arquivo3.zip" download>Arquivo 3 - Patch Correção</a></li>
+  </ul>
+</section>
+
+<section id="galeria">
+  <h2>Galeria de Imagens</h2>
+  <div class="gallery">
+    <!-- Aqui você coloca as imagens -->
+    <img src="imagens/capa1.jpg" alt="Capa 1" />
+    <img src="imagens/capa2.jpg" alt="Capa 2" />
+    <img src="imagens/capa3.jpg" alt="Capa 3" />
+    <img src="imagens/capa4.jpg" alt="Capa 4" />
+  </div>
+</section>
+
+<section id="contato">
+  <h2>Contato</h2>
+  <p>Para dúvidas ou sugestões, envie um e-mail para: <a href="mailto:contato@backyardmonsters.com" style="color:#4caf50;">contato@backyardmonsters.com</a></p>
+</section>
+
+</main>
+
+<footer>
+  &copy; 2025 Backyard Monsters - Todos os direitos reservados.
+</footer>
+
+</body>
+</html>
